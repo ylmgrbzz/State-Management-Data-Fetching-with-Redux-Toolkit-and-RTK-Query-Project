@@ -21,6 +21,12 @@ const Products = () => {
     }
   }, [data]);
 
+  const handleAddProduct = async () => {
+    const newProduct = { title: "BMW Pencil" }; // Eklenecek ürün
+    const addedProduct = await addProduct(newProduct).unwrap(); // unwrap() ile sonucu bekliyoruz
+    setProducts((prev) => [...prev, addedProduct]); // Yeni ürünü listeye ekle
+  };
+
   const handleDelete = async (id) => {
     await deleteProduct(id);
     setProducts(products.filter((product) => product.id !== id));
@@ -70,9 +76,7 @@ const Products = () => {
               <button onClick={() => setEditingProduct(null)}>Cancel</button>
             </div>
           )}
-          <button onClick={() => addProduct({ title: "New Product" })}>
-            Add Product
-          </button>
+          <button onClick={handleAddProduct}>Add Product</button>
         </>
       )}
     </div>
