@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   useGetProductsQuery,
   useAddProductMutation,
@@ -14,6 +15,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
   const [updatedTitle, setUpdatedTitle] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (data) {
@@ -22,9 +24,9 @@ const Products = () => {
   }, [data]);
 
   const handleAddProduct = async () => {
-    const newProduct = { title: "BMW Pencil" }; // Eklenecek ürün
-    const addedProduct = await addProduct(newProduct).unwrap(); // unwrap() ile sonucu bekliyoruz
-    setProducts((prev) => [...prev, addedProduct]); // Yeni ürünü listeye ekle
+    const newProduct = { title: "BMW Pencil" };
+    const addedProduct = await addProduct(newProduct).unwrap();
+    setProducts((prev) => [...prev, addedProduct]);
   };
 
   const handleDelete = async (id) => {
@@ -49,6 +51,10 @@ const Products = () => {
     setEditingProduct(null);
   };
 
+  const handleProductClick = (id) => {
+    navigate(`/products/${id}`);
+  };
+
   return (
     <div>
       {isLoading && <div>Loading...</div>}
@@ -58,7 +64,10 @@ const Products = () => {
           <h1>Products</h1>
           <ul>
             {products.map((product) => (
-              <li key={product.id}>
+              <li
+                key={product.id}
+                onClick={() => handleProductClick(product.id)}
+              >
                 {product.title}
                 <button onClick={() => handleEdit(product)}>Update</button>
                 <button onClick={() => handleDelete(product.id)}>Delete</button>
