@@ -1,5 +1,11 @@
+import Counter from "./components/Counter";
+
 function App() {
-  return <>ylm</>;
+  return (
+    <>
+      <Counter />
+    </>
+  );
 }
 
 export default App;
